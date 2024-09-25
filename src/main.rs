@@ -1,5 +1,3 @@
-use std::f32::consts::FRAC_PI_4;
-
 use avian2d::prelude::*;
 use bevy::{prelude::*, window::WindowResolution};
 
@@ -10,7 +8,7 @@ struct MainCamera;
 struct Ball;
 
 #[derive(Component)]
-struct Floor;
+struct Wall;
 
 fn main() -> AppExit {
     App::new()
@@ -44,12 +42,39 @@ fn setup(mut commands: Commands) {
         Restitution::PERFECTLY_ELASTIC,
     ));
 
+    // top
     commands.spawn((
-        Floor,
+        Wall,
         RigidBody::Static,
-        Collider::rectangle(200., 10.),
-        TransformBundle::from_transform(
-            Transform::from_xyz(0., 0., 0.).with_rotation(Quat::from_rotation_z(FRAC_PI_4)),
-        ),
+        Collider::rectangle(800., 1.),
+        TransformBundle::from_transform(Transform::from_xyz(0., 300., 0.)),
+        Restitution::PERFECTLY_ELASTIC,
+    ));
+
+    // bottom
+    commands.spawn((
+        Wall,
+        RigidBody::Static,
+        Collider::rectangle(800., 1.),
+        TransformBundle::from_transform(Transform::from_xyz(0., -300., 0.)),
+        Restitution::PERFECTLY_ELASTIC,
+    ));
+
+    // left
+    commands.spawn((
+        Wall,
+        RigidBody::Static,
+        Collider::rectangle(1., 600.),
+        TransformBundle::from_transform(Transform::from_xyz(-400., 0., 0.)),
+        Restitution::PERFECTLY_ELASTIC,
+    ));
+
+    // right
+    commands.spawn((
+        Wall,
+        RigidBody::Static,
+        Collider::rectangle(1., 600.),
+        TransformBundle::from_transform(Transform::from_xyz(400., 0., 0.)),
+        Restitution::PERFECTLY_ELASTIC,
     ));
 }
